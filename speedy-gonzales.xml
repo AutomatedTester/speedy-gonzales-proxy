@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="speedy-gonzales" default="all">
+  
+  
+  <property file="speedy-gonzales.properties"/>
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="128m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/SCCS/**"/>
+    <exclude name="**/RCS/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/.pyc/**"/>
+    <exclude name="**/.pyo/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/_svn/**"/>
+    <exclude name="**/.hg/**"/>
+    <exclude name="**/*.lib/**"/>
+    <exclude name="**/*~/**"/>
+    <exclude name="**/__pycache__/**"/>
+    <exclude name="**/.bundle/**"/>
+    <exclude name="**/*.rbc/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.zip"/>
+    <include name="*.apk"/>
+    <include name="*.war"/>
+    <include name="*.egg"/>
+    <include name="*.ear"/>
+    <include name="*.ane"/>
+    <include name="*.swc"/>
+    <include name="*.jar"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <include name="**/?*.properties"/>
+    <include name="**/?*.xml"/>
+    <include name="**/?*.gif"/>
+    <include name="**/?*.png"/>
+    <include name="**/?*.jpeg"/>
+    <include name="**/?*.jpg"/>
+    <include name="**/?*.html"/>
+    <include name="**/?*.dtd"/>
+    <include name="**/?*.tld"/>
+    <include name="**/?*.ftl"/>
+  </patternset>
+  
+  <!-- JDK definitions -->
+  
+  <property name="jdk.bin.1.6" value="${jdk.home.1.6}/bin"/>
+  <path id="jdk.classpath.1.6">
+    <fileset dir="${jdk.home.1.6}">
+      <include name="lib/deploy.jar"/>
+      <include name="lib/dt.jar"/>
+      <include name="lib/javaws.jar"/>
+      <include name="lib/jce.jar"/>
+      <include name="lib/jconsole.jar"/>
+      <include name="lib/management-agent.jar"/>
+      <include name="lib/plugin.jar"/>
+      <include name="lib/sa-jdi.jar"/>
+      <include name="../Classes/alt-rt.jar"/>
+      <include name="../Classes/charsets.jar"/>
+      <include name="../Classes/classes.jar"/>
+      <include name="../Classes/jsse.jar"/>
+      <include name="../Classes/ui.jar"/>
+      <include name="lib/ext/apple_provider.jar"/>
+      <include name="lib/ext/dnsns.jar"/>
+      <include name="lib/ext/localedata.jar"/>
+      <include name="lib/ext/sunjce_provider.jar"/>
+      <include name="lib/ext/sunpkcs11.jar"/>
+    </fileset>
+  </path>
+  
+  <property name="project.jdk.home" value="${jdk.home.1.6}"/>
+  <property name="project.jdk.bin" value="${jdk.bin.1.6}"/>
+  <property name="project.jdk.classpath" value="jdk.classpath.1.6"/>
+  
+  
+  <!-- Global Libraries -->
+  
+  <path id="library.selenium-server-standalone-2.21.0.classpath">
+    <pathelement location="/Users/davidburns/Downloads/selenium-server-standalone-2.21.0.jar"/>
+  </path>
+  <!-- Register Custom Compiler Taskdefs -->
+  <property name="javac2.home" value="${idea.home}/lib"/>
+  <path id="javac2.classpath">
+    <pathelement location="${javac2.home}/javac2.jar"/>
+    <pathelement location="${javac2.home}/jdom.jar"/>
+    <pathelement location="${javac2.home}/asm.jar"/>
+    <pathelement location="${javac2.home}/asm-commons.jar"/>
+    <pathelement location="${javac2.home}/jgoodies-forms.jar"/>
+  </path>
+  <target name="register.custom.compilers">
+    <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="javac2.classpath"/>
+    <taskdef name="instrumentIdeaExtensions" classname="com.intellij.ant.InstrumentIdeaExtensions" classpathref="javac2.classpath"/>
+  </target>
+  
+  <!-- Modules -->
+  
+  
+  <!-- Module speedy-gonzales -->
+  
+  <dirname property="module.speedy-gonzales.basedir" file="${ant.file}"/>
+  
+  
+  <property name="module.jdk.home.speedy-gonzales" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.speedy-gonzales" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.speedy-gonzales" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.speedy-gonzales" value="${compiler.args}"/>
+  
+  <property name="speedy-gonzales.output.dir" value="${module.speedy-gonzales.basedir}/out/production/speedy-gonzales"/>
+  <property name="speedy-gonzales.testoutput.dir" value="${module.speedy-gonzales.basedir}/out/test/speedy-gonzales"/>
+  
+  <path id="speedy-gonzales.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="speedy-gonzales.module.production.classpath">
+    <path refid="${module.jdk.classpath.speedy-gonzales}"/>
+    <path refid="library.selenium-server-standalone-2.21.0.classpath"/>
+  </path>
+  
+  <path id="speedy-gonzales.runtime.production.module.classpath">
+    <pathelement location="${speedy-gonzales.output.dir}"/>
+    <path refid="library.selenium-server-standalone-2.21.0.classpath"/>
+  </path>
+  
+  <path id="speedy-gonzales.module.classpath">
+    <path refid="${module.jdk.classpath.speedy-gonzales}"/>
+    <pathelement location="${speedy-gonzales.output.dir}"/>
+    <path refid="library.selenium-server-standalone-2.21.0.classpath"/>
+  </path>
+  
+  <path id="speedy-gonzales.runtime.module.classpath">
+    <pathelement location="${speedy-gonzales.testoutput.dir}"/>
+    <pathelement location="${speedy-gonzales.output.dir}"/>
+    <path refid="library.selenium-server-standalone-2.21.0.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.speedy-gonzales">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.speedy-gonzales">
+    <patternset refid="excluded.from.module.speedy-gonzales"/>
+  </patternset>
+  
+  <path id="speedy-gonzales.module.sourcepath">
+    <dirset dir="${module.speedy-gonzales.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.speedy-gonzales" depends="compile.module.speedy-gonzales.production,compile.module.speedy-gonzales.tests" description="Compile module speedy-gonzales"/>
+  
+  <target name="compile.module.speedy-gonzales.production" depends="register.custom.compilers" description="Compile module speedy-gonzales; production classes">
+    <mkdir dir="${speedy-gonzales.output.dir}"/>
+    <javac2 destdir="${speedy-gonzales.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.speedy-gonzales}/javac">
+      <compilerarg line="${compiler.args.speedy-gonzales}"/>
+      <bootclasspath refid="speedy-gonzales.module.bootclasspath"/>
+      <classpath refid="speedy-gonzales.module.production.classpath"/>
+      <src refid="speedy-gonzales.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.speedy-gonzales"/>
+    </javac2>
+    
+    <copy todir="${speedy-gonzales.output.dir}">
+      <fileset dir="${module.speedy-gonzales.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.speedy-gonzales.tests" depends="register.custom.compilers,compile.module.speedy-gonzales.production" description="compile module speedy-gonzales; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.speedy-gonzales" description="cleanup module">
+    <delete dir="${speedy-gonzales.output.dir}"/>
+    <delete dir="${speedy-gonzales.testoutput.dir}"/>
+  </target>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.speedy-gonzales" description="cleanup all"/>
+  
+  <target name="build.modules" depends="init, clean, compile.module.speedy-gonzales" description="build all modules"/>
+  
+  <target name="all" depends="build.modules" description="build all"/>
+</project>
