@@ -33,7 +33,7 @@ public class SpeedyGonzalesProxy extends DefaultRemoteProxy implements TestSessi
                 while (matcher.find()){
                     cleanAddress = matcher.group();
                 }
-                URL url = new URL("http://" + cleanAddress + ":3000/");
+                URL url = new URL("http://" + cleanAddress + ":3000/moveMouse");
                 HttpURLConnection conn = (HttpURLConnection)url.openConnection();
                 conn.setRequestMethod("GET");
                 conn.getInputStream();
