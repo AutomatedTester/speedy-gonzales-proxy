@@ -20,6 +20,7 @@ public class SpeedyGonzalesProxy extends DefaultRemoteProxy implements TestSessi
 
     public SpeedyGonzalesProxy(RegistrationRequest request, Registry registry) {
         super(request, registry);
+        System.out.println("Starting Speedy Gonzales Proxy");
     }
 
     @Override
