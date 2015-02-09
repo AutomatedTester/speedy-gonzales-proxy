@@ -1,1 +1,5 @@
 out/*
+/target/
+/.settings/
+/.classpath
+/.project

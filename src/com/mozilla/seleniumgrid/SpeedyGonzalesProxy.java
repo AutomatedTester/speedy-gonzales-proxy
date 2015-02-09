@@ -1,48 +1,48 @@
 package com.mozilla.seleniumgrid;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+
 import org.openqa.grid.common.RegistrationRequest;
 import org.openqa.grid.internal.Registry;
 import org.openqa.grid.internal.TestSession;
 import org.openqa.grid.internal.listeners.TestSessionListener;
 import org.openqa.grid.selenium.proxy.DefaultRemoteProxy;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class SpeedyGonzalesProxy extends DefaultRemoteProxy implements TestSessionListener {
 
-    private Pattern urlPattern = Pattern.compile("http://(\\w+)");
-
-    public SpeedyGonzalesProxy(RegistrationRequest request, Registry registry) {
+    public SpeedyGonzalesProxy(final RegistrationRequest request, final Registry registry) {
         super(request, registry);
     }
 
     @Override
-    public void beforeSession(TestSession session) {
+    public void beforeSession(final TestSession session) {
+
         super.beforeSession(session);
-        synchronized (this){
+        synchronized (this) {
+            HttpURLConnection conn = null;
             try {
-                String nodeAddress = session.getSlot().getPath();
-                Matcher matcher = urlPattern.matcher(nodeAddress);
-                String cleanAddress = "";
-                while (matcher.find()){
-                    cleanAddress = matcher.group();
-                }
-                URL url = new URL("http://" + cleanAddress + ":3000/moveMouse");
-                HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+                URL url = new URL(remoteHost + "/extra/MoveMouse");
+                conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("GET");
-                conn.getInputStream();
+                conn.getResponseCode();
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (ProtocolException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
+            } finally {
+                if (conn != null) {
+                    try {
+                        conn.disconnect();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
     }
